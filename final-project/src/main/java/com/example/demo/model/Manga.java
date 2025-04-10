@@ -25,8 +25,11 @@ public class Manga {
     private String description;
 
     @OneToMany(mappedBy = "manga")
-    @NotBlank(message = "campo deve essere popolato")
     private List<Character> characters;
+
+    public Manga() {
+        // Costruttore vuoto per JPA
+    }
 
     public Manga(Integer id, String title, String author, String description, List<Character> characters) {
         this.id = id;
