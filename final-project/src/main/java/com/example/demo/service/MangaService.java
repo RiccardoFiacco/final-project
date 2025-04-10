@@ -31,7 +31,10 @@ public class MangaService {
         }
         return manga.get();
     }
-    
+    public Optional<Manga> findMangaById(Integer id) {
+        // restituisce un manga in base all'ID
+        return mangaRepository.findById(id); // restituisce il manga se esiste
+    }
     public Manga createManga(Manga manga) {
         // crea un nuovo manga e lo restituisce
         return mangaRepository.save(manga);
