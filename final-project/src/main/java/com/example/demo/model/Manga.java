@@ -24,7 +24,7 @@ public class Manga {
     @NotBlank(message = "campo deve essere popolato")
     private String description;
 
-    @OneToMany(mappedBy = "manga")
+    @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL)
     private List<Character> characters;
 
     public Manga() {
