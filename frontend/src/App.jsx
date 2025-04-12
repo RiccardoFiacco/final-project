@@ -13,9 +13,9 @@ function App() {
       <GlobalContext.Provider value={{ mangas, setMangas }}>
         <BrowserRouter>
           <Routes>
-            <Route element={<DefaultLayout />} />
-            <Route path="/" element={<Home />} />
-            <Route />
+            <Route element={<DefaultLayout />} >
+             <Route path="/" element={<Home />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>
