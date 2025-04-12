@@ -24,7 +24,7 @@ public class Manga {
     @NotBlank(message = "campo deve essere popolato")
     private String description;
 
-    @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL) //cascade type all permette di inserire i personaggi in automatico
     private List<Character> characters;
 
     public Manga() {
