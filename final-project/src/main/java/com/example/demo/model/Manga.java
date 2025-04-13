@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,7 +27,7 @@ public class Manga {
     private String description;
 
     @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL) //cascade type all permette di inserire i personaggi in automatico
-    private List<Character> characters;
+    private List<Character> characters= new ArrayList<>(); // inizializzo la lista per evitare null pointer exception
 
     public Manga() {
         // Costruttore vuoto per JPA

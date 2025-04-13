@@ -3,7 +3,6 @@ import GlobalContext from "../contexts/GlobalContext";
 import { useContext } from "react";
 import { WithFetchHoc } from "../Hoc/WithFetchHoc";
 import { Card } from "../Components/Card";
-
 export function Home({ fetch }) {
   const { mangas, setMangas } = useContext(GlobalContext);
 
@@ -23,9 +22,11 @@ export function Home({ fetch }) {
         Discover your favorite manga series and characters.
       </p>
       {mangas ? (
-        mangas.map((manga) => {
+        mangas.map((manga,i) => {
           return (
-            <Card manga={manga} />
+            <div key={i}>
+              <Card manga={manga} />
+            </div>
           );
         })
       ) : (

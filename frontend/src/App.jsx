@@ -6,19 +6,23 @@ import DefaultLayout from "./layouts/defaultLayout";
 import { FinalHome } from "./pages/Home";
 import { FinalFind } from "./pages/Find";
 import { DetailPage } from "./pages/DetailPage";
+import { FinalAddMangaForm } from "./Components/AddMangaForm";
 function App() {
   const [mangas, setMangas] = useState([]);
   const [manga, setManga] = useState([]);
   const [search, setSearch] = useState("");
   return (
     <>
-      <GlobalContext.Provider value={{ mangas, setMangas, search, setSearch, manga, setManga }}>
+      <GlobalContext.Provider
+        value={{ mangas, setMangas, search, setSearch, manga, setManga }}
+      >
         <BrowserRouter>
           <Routes>
-            <Route element={<DefaultLayout />} >
-                <Route path="/" element={<FinalHome />} />
-                <Route path="/find" element={<FinalFind />} /> 
-                <Route path="/manga/:id" element={<DetailPage/>} />
+            <Route element={<DefaultLayout />}>
+              <Route path="/" element={<FinalHome />} />
+              <Route path="/find" element={<FinalFind />} />
+              <Route path="/manga/:id" element={<DetailPage />} />
+              <Route path="/add" element={<FinalAddMangaForm />} />
             </Route>
           </Routes>
         </BrowserRouter>
