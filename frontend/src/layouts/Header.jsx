@@ -1,59 +1,47 @@
-import { NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import axios from "axios";
 import LogoutButton from "../Components/LogoutButton";
 import LoginButton from "../Components/LoginButton";
+import { useContext } from "react";
+import GlobalContext from "../contexts/GlobalContext";
 
 function Header() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  // funzione per verificare lo stato di autenticazione
-  const checkAuthStatus = () => {
-    axios.get("http://localhost:8080/api/manga", {
-      withCredentials: true,
-      headers: { //header per evitare caching
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
-    })
-    .then(() => setLoggedIn(true))
-    .catch((error) => {
-      if (error.response && error.response.status === 401) {
-        setLoggedIn(false);
-      } else {
-        console.error("Errore generico: ", error);
-      }
-    });
-  };
+  const { isLoggedIn, setIsLoggedIn } = useContext(GlobalContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    checkAuthStatus();
-    // quando l'utente usa il tasto indietro/avanti del browser
-    const handlePopState = () => {
-      checkAuthStatus();
+    const checkLoginStatus = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/users/me", {
+          withCredentials: true,
+        });
+        setIsLoggedIn(response.status === 200);
+      } catch (error) {
+        console.error(
+          "Errore durante il controllo dello stato di login:",
+          error
+        );
+        setIsLoggedIn(false);
+      }
     };
-
-    window.addEventListener("popstate", handlePopState);
-
-    // pulizia dell'event listener quando il componente viene smontato
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
+    checkLoginStatus();
   }, []);
 
-  const handleLogout = () => {
-    axios
-      .post("http://localhost:8080/logout", {}, { withCredentials: true })
-      .then(() => {
-        console.log("Logout effettuato");
-        setLoggedIn(false);
-        document.cookie = "JSESSIONID=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-      })
-      .catch((error) => {
-        console.error("Errore nel logout:", error);
-      });
-  };
+  async function handleLogout() {
+    try {
+      await axios.post(
+        "http://localhost:8080/api/auth/logout", // Usa l'endpoint personalizzato per il logout
+        {},
+        { withCredentials: true } // Assicurati di inviare i cookie di sessione
+      );
+      console.log("Logout effettuato");
+      setIsLoggedIn(false); // Aggiorna lo stato
+      navigate("/"); // Naviga senza refresh
+    } catch (error) {
+      console.error("Errore durante il logout", error);
+    }
+  }
 
   return (
     <header className="container mx-auto bg-blue-400 rounded-2xl">
@@ -63,23 +51,25 @@ function Header() {
         </NavLink>
         <nav className="nav p-1.5">
           <ul className="flex gap-4">
-            {loggedIn ? (
+            {isLoggedIn ? (
               <LogoutButton onLogout={handleLogout} />
             ) : (
-              <LoginButton />
+              <NavLink to="/login">
+                <LoginButton />
+              </NavLink>
             )}
             <NavLink to="/find">
               <li className="bg-amber-300 hover:bg-amber-500 p-1 rounded-md">
                 Cerca
               </li>
             </NavLink>
-            {loggedIn ? (
+            {isLoggedIn && (
               <NavLink to="/add">
                 <li className="bg-amber-300 hover:bg-amber-500 p-1 rounded-md">
                   Aggiungi
                 </li>
               </NavLink>
-            ) : null}
+            )}
           </ul>
         </nav>
       </div>
