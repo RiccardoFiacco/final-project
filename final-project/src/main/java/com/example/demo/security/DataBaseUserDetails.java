@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.model.User;
-
+//classe per la gestione dei dettagli dell'utente
 public class DataBaseUserDetails implements UserDetails {
 
     public final Integer id;

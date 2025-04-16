@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import java.util.Set;
 
+//pojo per la richiesta di registrazione di un nuovo utente
 public class UserRegistrationRequest {
     private String username;
     private String password;

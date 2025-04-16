@@ -1,6 +1,8 @@
 package com.example.demo.model;
+//pojo per la richiesta di login
 
 public class LoginRequest {
+    //contiene i campi username e password che sono i campi della tabella user
     private String username;
     private String password;
 

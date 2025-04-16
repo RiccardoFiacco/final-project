@@ -45,7 +45,7 @@ export function WithRegistrationForm(Component) {
             const status = error.response.status;
             if (status === 401 || status === 403) {
               // Redirect manuale alla pagina di login di Spring
-              window.location.href = "http://localhost:8080/login";
+              navigator("/login");
             } else {
               console.log(error.response.data.message);
             }
@@ -68,6 +68,48 @@ export function WithRegistrationForm(Component) {
       }
     }
 
-    return <Component sender={sendManga} data={data} {...other} />;
+    async function sendRegistration(event) {
+      event.preventDefault();
+      //trim inputauthor, title, description
+      data.email = data.email ? data.email.trim() : "";
+      data.password = data.password ? data.password.trim() : "";
+
+      //eseguo la validazione
+      const result = charactersValidation();//cambia validazione da errore
+      //se validazione va bene faccio chiamata
+      if (result.length == 0) {
+        try {
+          const result = await axios.post(
+            `http://localhost:8080/api/users/register`,
+            data
+          );
+          console.log(result.data.message);
+          navigator("/login");
+          resetForm();
+        } catch (error) {
+          if (error.response) {
+            const status = error.response.status;
+            if (status === 401 || status === 403) {
+              navigator("/register");
+            } else {
+              console.log(error.response.data.message);
+            }
+          } else {
+            console.error("Errore di rete o di configurazione", error);
+          }
+        }
+      } else {
+        //output errore validazione
+        console.log(result);
+      }
+    }
+    return (
+      <Component
+        sender={sendManga}
+        data={data}
+        register={sendRegistration}
+        {...other}
+      />
+    );
   };
 }

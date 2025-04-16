@@ -1,5 +1,5 @@
 package com.example.demo.model;
-//semplice classe per recuperare il nome utente dell'utente autenticato
+//semplice classe per recuperare il nome dell'utente autenticato
 public class UserDto {
     private String username;
 

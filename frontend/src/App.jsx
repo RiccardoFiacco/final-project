@@ -8,6 +8,8 @@ import { FinalFind } from "./pages/Find";
 import { DetailPage } from "./pages/DetailPage";
 import { FinalAddMangaForm } from "./Components/AddMangaForm";
 import LoginForm from "./Components/LoginForm";
+import { FinalRegistrationForm } from "./Components/RegistrationForm";
+
 function App() {
   const [mangas, setMangas] = useState([]);
   const [manga, setManga] = useState([]);
@@ -16,7 +18,16 @@ function App() {
   return (
     <>
       <GlobalContext.Provider
-        value={{ mangas, setMangas, search, setSearch, manga, setManga, isLoggedIn, setIsLoggedIn }}
+        value={{
+          mangas,
+          setMangas,
+          search,
+          setSearch,
+          manga,
+          setManga,
+          isLoggedIn,
+          setIsLoggedIn,
+        }}
       >
         <BrowserRouter>
           <Routes>
@@ -26,6 +37,7 @@ function App() {
               <Route path="/manga/:id" element={<DetailPage />} />
               <Route path="/add" element={<FinalAddMangaForm />} />
               <Route path="/login" element={<LoginForm />} />
+              <Route path="/register" element={<FinalRegistrationForm />} />
             </Route>
           </Routes>
         </BrowserRouter>

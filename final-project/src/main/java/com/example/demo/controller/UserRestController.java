@@ -19,7 +19,7 @@ import com.example.demo.service.UserService;
 public class UserRestController {
     @Autowired
     private UserService userService;
-
+    //rotta per registrare un nuovo utente e per ottenere le informazioni dell'utente corrente
     @PostMapping("/register") // metodo per registrare un nuovo utente
     public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest request) {
         try {
@@ -29,7 +29,7 @@ public class UserRestController {
             return ResponseEntity.badRequest().body("Errore: " + e.getMessage());
         }
     }
-
+    //rotta per ottenere le informazioni dell'utente corrente
     @GetMapping("/me")
     public ResponseEntity<UserDto> getCurrentUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {

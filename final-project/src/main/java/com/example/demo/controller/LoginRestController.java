@@ -18,7 +18,7 @@ import com.example.demo.model.LoginRequest;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+//controller per gestire le richieste di login e logout
 @RestController
 @RequestMapping("/api")
 public class LoginRestController {
