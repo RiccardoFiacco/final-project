@@ -45,7 +45,6 @@ export function WithRegistrationForm(Component) {
           if (error.response) {
             const status = error.response.status;
             if (status === 401 || status === 403) {
-              // Redirect manuale alla pagina di login di Spring
               navigator("/login");
             } else {
               console.log(error.response.data.message);
@@ -99,7 +98,6 @@ export function WithRegistrationForm(Component) {
           }
         }
       } else {
-        //output errore validazione
         console.log(result);
       }
     }

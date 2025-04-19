@@ -10,7 +10,6 @@ const baseForm = {
 
 export function AddMangaForm({ data, handlerInput, sender }) {
   const { author, title, description } = data;
-
   return (
     <div className="container text-black mx-auto">
       <form

@@ -3,16 +3,17 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import GlobalContext from "../contexts/GlobalContext";
+import { FinalChangeForm } from "../Components/ChangeForm";
+import { DeleteButton } from "../Components/DeleteButton";
 
 export function DetailPage() {
-  const { manga, setManga } = useContext(GlobalContext);
+  const { manga, setManga, isLoggedIn } = useContext(GlobalContext);
   const { id } = useParams(); // Get the manga ID from the URL
   const { author, title, description, characters } = manga;
   useEffect(() => {
+    console.log(isLoggedIn);
     async function fetchData() {
-      console.log(id);
       const result = await axios.get(`http://localhost:8080/api/manga/${id}`); // Fetch all mangas
-      console.log(result.data);
       setManga(result.data);
     }
     fetchData();
@@ -37,6 +38,18 @@ export function DetailPage() {
         })
       ) : (
         <p>Loading...</p>
+      )}
+      {isLoggedIn && (
+        <div>
+          <FinalChangeForm />
+          <NavLink
+            to={`/manga/${id}/add-character`}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Aggiungi personaggio
+          </NavLink>
+          <DeleteButton />
+        </div>
       )}
     </div>
   );
