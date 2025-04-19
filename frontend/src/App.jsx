@@ -14,6 +14,8 @@ function App() {
   const [mangas, setMangas] = useState([]);
   const [manga, setManga] = useState([]);
   const [search, setSearch] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   return (
     <>
@@ -27,6 +29,8 @@ function App() {
           setManga,
           isLoggedIn,
           setIsLoggedIn,
+          username, setUsername,
+          password, setPassword
         }}
       >
         <BrowserRouter>

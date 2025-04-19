@@ -13,6 +13,7 @@ export function Home({ fetch }) {
       setMangas(data);
     }
     fetchData();
+
   }, []);
 
   return (

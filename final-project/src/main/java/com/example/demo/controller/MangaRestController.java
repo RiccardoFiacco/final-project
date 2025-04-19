@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,12 +55,14 @@ public class MangaRestController {
         }
     }
 
+    @PreAuthorize("hasAuthority('admin', 'user')")
     @PostMapping
     public ResponseEntity<Manga> createManga(@Valid @RequestBody Manga manga) {
         // crea un nuovo manga e lo restituisce
         return new ResponseEntity<Manga>(mangaService.createManga(manga), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/{id}")
     public ResponseEntity<Manga> update(@Valid @RequestBody Manga manga, @PathVariable Integer id) {
         // aggiorna un manga esistente e lo restituisce
@@ -71,6 +76,7 @@ public class MangaRestController {
         }
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteManga(@PathVariable Integer id) throws Exception {
         // elimina un manga in base all'ID
@@ -84,5 +90,10 @@ public class MangaRestController {
             throw new RuntimeException("Manga not found with id: " + id, e);
         }
     }
-    
+
+    @GetMapping("/whoami")
+    public String whoAmI() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    return "Utente autenticato: " + auth.getName() + " - Ruoli: " + auth.getAuthorities();
+}
 }

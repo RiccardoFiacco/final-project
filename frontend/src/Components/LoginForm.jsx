@@ -5,10 +5,8 @@ import { useContext } from "react";
 import GlobalContext from "../contexts/GlobalContext";
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setIsLoggedIn } = useContext(GlobalContext); // Hook per aggiornare lo stato di login
+  const { setIsLoggedIn,username, setUsername,password, setPassword } = useContext(GlobalContext); // Hook per aggiornare lo stato di login
   const navigate = useNavigate(); // Hook per navigare dopo il login
 
   const handleSubmit = async (e) => {

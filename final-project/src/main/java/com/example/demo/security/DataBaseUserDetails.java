@@ -2,11 +2,14 @@ package com.example.demo.security;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.model.User;
+
 //classe per la gestione dei dettagli dell'utente
 public class DataBaseUserDetails implements UserDetails {
 
@@ -19,7 +22,11 @@ public class DataBaseUserDetails implements UserDetails {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.authorities = new HashSet<GrantedAuthority>();
+        // Mappiamo i ruoli in GrantedAuthority (prendendo il nome del ruolo)
+        this.authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toSet());
+        System.out.println("Authorities caricate per " + username + ": " + authorities);
     }
 
     public Integer getId() {

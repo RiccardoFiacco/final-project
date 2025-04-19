@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,23 +20,26 @@ import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity // Abilita la sicurezza a livello di metodo (annotazioni come @PreAuthorize)
 public class SecurityConfig {
     @Bean
     @SuppressWarnings("removal")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .cors().and()
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll() // registra un nuovo utente
-                                                                                             // senza autenticazione
-                        .requestMatchers("/manga/create", "/manga/update/**").hasAuthority("ADMIN") // solo admin
-                        .requestMatchers(HttpMethod.POST, "/manga/**").hasAuthority("ADMIN") // solo admin
-                        .requestMatchers("/manga", "/manga/**").hasAnyAuthority("ADMIN", "USER") // admin o user
-                        .requestMatchers("/**").permitAll() // tutte le altre richieste per chiunque
-                )
-                .httpBasic().disable() // Disabilita il login HTTP base (se necessario)
-                .formLogin().disable() // Disabilita il form login di default (se necessario)
-                .logout().disable();   // Disabilita la rotta di logout di base
+            .cors().and()
+            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+                .requestMatchers("/manga/create", "/manga/update/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/manga/**").hasAuthority("ADMIN")
+                .requestMatchers("/manga", "/manga/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/**").permitAll()
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            )
+            .formLogin().disable()
+            .httpBasic().disable()
+            .logout().disable();
 
         return http.build();
     }

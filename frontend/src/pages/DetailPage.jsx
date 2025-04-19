@@ -15,6 +15,10 @@ export function DetailPage() {
     async function fetchData() {
       const result = await axios.get(`http://localhost:8080/api/manga/${id}`); // Fetch all mangas
       setManga(result.data);
+      const result2 = await axios.get(`http://localhost:8080/api/manga/whoami`,{
+        withCredentials: true
+      }); // Fetch all mangas
+      console.log(result2);
     }
     fetchData();
   }, []);

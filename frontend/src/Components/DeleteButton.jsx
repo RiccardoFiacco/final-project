@@ -8,7 +8,9 @@ export function DeleteButton() {
   const navigator = useNavigate();
   async function deleteManga() {
     try {
-      const res = axios.delete(`http://localhost:8080/api/manga/${id}`);
+      const res = axios.delete(`http://localhost:8080/api/manga/${id}`,{
+        withCredentials: true
+      });
       console.log(res.data);
       setShowModal(false);
       navigator("/");

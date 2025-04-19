@@ -1,9 +1,10 @@
 import { useContext, useState, useEffect } from "react";
 import GlobalContext from "../contexts/GlobalContext";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 export function FinalChangeForm() {
   const { manga, setManga } = useContext(GlobalContext);
+  const navigator = useNavigate();
   const { id } = useParams();
   const [formData, setFormData] = useState({
     author: "",
@@ -44,7 +45,10 @@ export function FinalChangeForm() {
       console.log("sono entrato");
       const result = await axios.put(
         `http://localhost:8080/api/manga/${id}`,
-        formData
+        formData,
+        {
+          withCredentials: true,
+        }
       );
       console.log(result.data.message);
       fetchData();
