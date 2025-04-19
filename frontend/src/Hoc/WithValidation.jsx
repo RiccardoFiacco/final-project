@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
+import { isStrongPassword } from "validator";
+
 export function WithValidation(Component) {
   return ({ data, ...other }) => {
-    const { author, title, description, characters } = data; // Destruttura name da characters, se esiste
+    const { author, title, description, characters, username, password } = data; // Destruttura name da characters, se esiste
     function inputMangaValidation() {
       const errors = [];
       if (!author.trim()) {
@@ -56,10 +58,28 @@ export function WithValidation(Component) {
       return errors;
     }
 
+    function userValidation() {
+      const errors = [];
+
+      if (!username.trim()) {
+        errors.push("il nome è obbligatorio.");
+      } else if (name.length > 255) {
+        errors.push("il nome non puo superare 255 caratteri.");
+      }
+
+      if (!isStrongPassword(password)) {
+        errors.push(
+          "La password deve contenere almeno 8 caratteri, una maiuscola, un numero e un simbolo."
+        );
+      }
+      return errors;
+    }
+
     return (
       <Component
         mangaValidation={inputMangaValidation}
         charactersValidation={charactersValidation}
+        userValidation={userValidation}
         data={data}
         {...other}
       />

@@ -3,12 +3,13 @@ import { WithValidation } from "../Hoc/WithValidation";
 import { WithRegistrationForm } from "../Hoc/WithRegistration";
 
 const baseForm = {
-  name: "",
+  username: "",
   password: "",
+  roles: ["user"],
 };
 
 export function RegistrationForm({ data, handlerInput, register }) {
-  const { name, password } = data;
+  const { username, password } = data;
 
   return (
     <div className="container text-black mx-auto">
@@ -21,8 +22,8 @@ export function RegistrationForm({ data, handlerInput, register }) {
 
         <input
           type="text"
-          name="name"
-          value={name}
+          name="username"
+          value={username}
           onChange={(e) => handlerInput(e)}
           className="border-2 rounded-2xl p-3 mx-5 w-11/12"
           placeholder="Inserisci autore..."

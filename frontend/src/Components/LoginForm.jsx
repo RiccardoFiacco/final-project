@@ -27,28 +27,38 @@ function LoginForm() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="container text-black mx-auto">
+      <form
+        className=" mt-3.5 lg:w-1/2 flex flex-col gap-4 justify-center items-center custom-bg-form"
+        onSubmit={handleSubmit}
+      >
+        <h2>Login</h2>
         <div>
-          <label>Username:</label>
           <input
             type="text"
             value={username}
+            className="border-2 rounded-2xl p-3 mx-5 w-11/12"
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="Inserisci username.."
             required
           />
         </div>
         <div>
-          <label>Password:</label>
           <input
             type="password"
             value={password}
+            className="border-2 rounded-2xl p-3 mx-5 w-11/12"
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Inserisci password.."
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button
+          className="uppercase text-2xl py-3 px-3 bg-cyan-600 rounded-4xl"
+          type="submit"
+        >
+          Login
+        </button>
       </form>
       {error && <p>{error}</p>}
     </div>

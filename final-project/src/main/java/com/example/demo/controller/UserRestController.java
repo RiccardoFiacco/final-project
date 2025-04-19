@@ -22,6 +22,7 @@ public class UserRestController {
     //rotta per registrare un nuovo utente e per ottenere le informazioni dell'utente corrente
     @PostMapping("/register") // metodo per registrare un nuovo utente
     public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest request) {
+        System.out.println("Registrazione utente: " + request.getUsername()+ request.getPassword() + " con ruoli: " + request.getRoles());
         try {
             userService.registerNewUser(request.getUsername(), request.getPassword(), request.getRoles());
             return ResponseEntity.ok("Utente creato con successo");

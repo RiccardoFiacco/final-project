@@ -5,6 +5,7 @@ import LogoutButton from "../Components/LogoutButton";
 import LoginButton from "../Components/LoginButton";
 import { useContext } from "react";
 import GlobalContext from "../contexts/GlobalContext";
+import RegisterButton from "../Components/RegisterButton";
 
 function Header() {
   const { isLoggedIn, setIsLoggedIn } = useContext(GlobalContext);
@@ -54,9 +55,14 @@ function Header() {
             {isLoggedIn ? (
               <LogoutButton onLogout={handleLogout} />
             ) : (
-              <NavLink to="/login">
-                <LoginButton />
-              </NavLink>
+              <>
+                <NavLink to="/login">
+                  <LoginButton />
+                </NavLink>
+                <NavLink to="/register">
+                  <RegisterButton />
+                </NavLink>
+              </>
             )}
             <NavLink to="/find">
               <li className="bg-amber-300 hover:bg-amber-500 p-1 rounded-md">

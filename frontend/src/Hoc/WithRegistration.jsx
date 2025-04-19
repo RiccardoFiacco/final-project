@@ -12,6 +12,7 @@ export function WithRegistrationForm(Component) {
     charactersValidation,
     resetForm,
     mangaValidation,
+    userValidation,
     ...other
   }) => {
     const { id } = useParams();
@@ -70,12 +71,11 @@ export function WithRegistrationForm(Component) {
 
     async function sendRegistration(event) {
       event.preventDefault();
+      console.log(data);
       //trim inputauthor, title, description
-      data.email = data.email ? data.email.trim() : "";
+      data.username = data.username ? data.username.trim() : "";
       data.password = data.password ? data.password.trim() : "";
-
-      //eseguo la validazione
-      const result = charactersValidation();//cambia validazione da errore
+      const result = userValidation();
       //se validazione va bene faccio chiamata
       if (result.length == 0) {
         try {
@@ -92,7 +92,7 @@ export function WithRegistrationForm(Component) {
             if (status === 401 || status === 403) {
               navigator("/register");
             } else {
-              console.log(error.response.data.message);
+              console.log(error);
             }
           } else {
             console.error("Errore di rete o di configurazione", error);
