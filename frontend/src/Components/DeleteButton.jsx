@@ -23,7 +23,7 @@ export function DeleteButton() {
     <div>
       <button
         onClick={() => setShowModal(true)}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-10"
       >
         Elimina
       </button>

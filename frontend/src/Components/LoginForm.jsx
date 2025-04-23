@@ -6,7 +6,8 @@ import GlobalContext from "../contexts/GlobalContext";
 
 function LoginForm() {
   const [error, setError] = useState("");
-  const { setIsLoggedIn,username, setUsername,password, setPassword } = useContext(GlobalContext); // Hook per aggiornare lo stato di login
+  const { setIsLoggedIn, username, setUsername, password, setPassword } =
+    useContext(GlobalContext); // Hook per aggiornare lo stato di login
   const navigate = useNavigate(); // Hook per navigare dopo il login
 
   const handleSubmit = async (e) => {
@@ -25,7 +26,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="container text-black mx-auto">
+    <div className="container flex justify-center text-black mx-auto">
       <form
         className=" mt-3.5 lg:w-1/2 flex flex-col gap-4 justify-center items-center custom-bg-form"
         onSubmit={handleSubmit}
@@ -52,7 +53,7 @@ function LoginForm() {
           />
         </div>
         <button
-          className="uppercase text-2xl py-3 px-3 bg-cyan-600 rounded-4xl"
+          className="text-lg uppercase py-1 px-2 bg-cyan-600 rounded-xl"
           type="submit"
         >
           Login

@@ -9,7 +9,7 @@ import { DetailPage } from "./pages/DetailPage";
 import { FinalAddMangaForm } from "./Components/AddMangaForm";
 import LoginForm from "./Components/LoginForm";
 import { FinalRegistrationForm } from "./Components/RegistrationForm";
-
+import { AddCharacter } from "./Components/AddCharacter";
 function App() {
   const [mangas, setMangas] = useState([]);
   const [manga, setManga] = useState([]);
@@ -29,8 +29,10 @@ function App() {
           setManga,
           isLoggedIn,
           setIsLoggedIn,
-          username, setUsername,
-          password, setPassword
+          username,
+          setUsername,
+          password,
+          setPassword,
         }}
       >
         <BrowserRouter>
@@ -42,6 +44,10 @@ function App() {
               <Route path="/add" element={<FinalAddMangaForm />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<FinalRegistrationForm />} />
+              <Route
+                path="/manga/:id/add-character"
+                element={<AddCharacter />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>

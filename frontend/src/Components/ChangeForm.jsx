@@ -67,7 +67,7 @@ export function FinalChangeForm() {
   }
 
   return (
-    <div className="container text-black mx-auto">
+    <div className="container flex justify-center text-black mx-auto mb-10">
       <form
         className="lg:w-1/2 flex flex-col gap-4 justify-center items-center custom-bg-form"
         encType="multipart/form-data"
@@ -105,7 +105,7 @@ export function FinalChangeForm() {
           placeholder="Inserisci descrizione..."
           maxLength="255"
         />
-        <button className="uppercase text-2xl py-3 px-3 bg-cyan-600 rounded-4xl">
+        <button className="uppercase text-lg py-1 px-2 bg-cyan-600 rounded-xl">
           invia
         </button>
       </form>

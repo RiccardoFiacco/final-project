@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.demo.model.Character;
 import com.example.demo.model.Manga;
+import com.example.demo.service.CharacterService;
 import com.example.demo.service.MangaService;
 
 import jakarta.validation.Valid;
@@ -29,6 +31,9 @@ public class MangaRestController {
     // utilizza il servizio MangaService per le operazioni CRUD sui manga
     @Autowired
     private MangaService mangaService;
+
+    @Autowired
+    private CharacterService characterService;
 
     @GetMapping
     public List<Manga> getAllMangas() {
@@ -93,7 +98,44 @@ public class MangaRestController {
 
     @GetMapping("/whoami")
     public String whoAmI() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    return "Utente autenticato: " + auth.getName() + " - Ruoli: " + auth.getAuthorities();
-}
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return "Utente autenticato: " + auth.getName() + " - Ruoli: " + auth.getAuthorities();
+    }
+
+    @PreAuthorize("hasAuthority('admin', 'user')")
+    @PostMapping("/{id}/characters")
+    public ResponseEntity<Character> addMangaCharacters(@PathVariable Integer id,
+            @Valid @RequestBody Character character) throws Exception {
+        // aggiunge un personaggio a un manga esistente
+        try {
+            Optional<Manga> optionalManga = mangaService.findMangaById(id);
+            if (optionalManga.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            Manga manga = optionalManga.get();
+            character.setManga(manga); // associa il personaggio al manga
+            manga.getCharacters().add(character); // aggiunge il personaggio alla lista del manga
+            mangaService.updateManga(id, manga); // aggiorna il manga con il nuovo personaggio
+            return new ResponseEntity<Character>(character, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException("Manga not found with id: " + id, e);
+        }
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @DeleteMapping("/{id}/characters/{id}/delete")
+    public ResponseEntity<Character> addMangaCharacters(@PathVariable Integer id) {
+        // elimina un personaggio da un manga esistente
+        try {
+            Optional<Character> optionalCharacter = characterService.getCharacterById(id);
+            if (optionalCharacter.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            characterService.deleteCharacter(id); // elimina il personaggio
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            throw new RuntimeException("Manga not found with id: " + id, e);
+        }
+    }
+
 }
