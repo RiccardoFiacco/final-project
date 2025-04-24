@@ -5,19 +5,22 @@ import { NavLink } from "react-router-dom";
 import GlobalContext from "../contexts/GlobalContext";
 import { FinalChangeForm } from "../Components/ChangeForm";
 import { DeleteButton } from "../Components/DeleteButton";
+import { DeleteCharacterButton } from "../Components/DeleteCharacterButton";
 
 export function DetailPage() {
   const { manga, setManga, isLoggedIn } = useContext(GlobalContext);
   const { id } = useParams(); // Get the manga ID from the URL
   const { author, title, description, characters } = manga;
   useEffect(() => {
-
     async function fetchData() {
-      const result = await axios.get(`http://localhost:8080/api/manga/${id}`); 
+      const result = await axios.get(`http://localhost:8080/api/manga/${id}`);
       setManga(result.data);
-      const result2 = await axios.get(`http://localhost:8080/api/manga/whoami`,{
-        withCredentials: true
-      }); 
+      const result2 = await axios.get(
+        `http://localhost:8080/api/manga/whoami`,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(result2);
     }
     fetchData();
@@ -37,6 +40,7 @@ export function DetailPage() {
             >
               <h2 className="text-xl font-semibold">{character.name}</h2>
               <p className="mt-2">{character.description}</p>
+              <DeleteCharacterButton characterId={character.id} />
             </div>
           );
         })

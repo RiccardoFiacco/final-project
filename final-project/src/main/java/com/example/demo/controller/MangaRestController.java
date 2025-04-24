@@ -60,7 +60,7 @@ public class MangaRestController {
         }
     }
 
-    @PreAuthorize("hasAuthority('admin', 'user')")
+    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     @PostMapping
     public ResponseEntity<Manga> createManga(@Valid @RequestBody Manga manga) {
         // crea un nuovo manga e lo restituisce
@@ -102,7 +102,7 @@ public class MangaRestController {
         return "Utente autenticato: " + auth.getName() + " - Ruoli: " + auth.getAuthorities();
     }
 
-    @PreAuthorize("hasAuthority('admin', 'user')")
+    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     @PostMapping("/{id}/characters")
     public ResponseEntity<Character> addMangaCharacters(@PathVariable Integer id,
             @Valid @RequestBody Character character) throws Exception {
@@ -123,7 +123,7 @@ public class MangaRestController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @DeleteMapping("/{id}/characters/{id}/delete")
+    @DeleteMapping("/{id}/delete-character")
     public ResponseEntity<Character> addMangaCharacters(@PathVariable Integer id) {
         // elimina un personaggio da un manga esistente
         try {
