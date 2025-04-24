@@ -1,10 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
 export function DeleteCharacterButton(props) {
   const { characterId } = props;
-  const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const navigator = useNavigate();
   async function deleteManga(event) {
